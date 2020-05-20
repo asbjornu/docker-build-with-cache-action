@@ -70,7 +70,7 @@ _get_full_image_name() {
 _tag() {
   local tag
   tag="${1:?You must provide a tag}"
-  docker tag $DUMMY_IMAGE_NAME "$(_get_full_image_name):$tag"
+  docker tag $INPUT_IMAGE_NAME "$(_get_full_image_name):$tag"
 }
 
 _push() {
@@ -112,7 +112,7 @@ _push_image_stages() {
   # push the image itself as a stage (the last one)
   echo -e "\nPushing stage: $stage_number"
   stage_image=$(_get_full_image_name)-stages:$stage_number
-  docker tag $DUMMY_IMAGE_NAME $stage_image
+  docker tag $INPUT_IMAGE_NAME $stage_image
   docker push $stage_image
 }
 
@@ -199,7 +199,7 @@ build_image() {
   set -x
   docker build \
     $cache_from \
-    --tag $DUMMY_IMAGE_NAME \
+    --tag $INPUT_IMAGE_NAME \
     --file ${INPUT_CONTEXT}/${INPUT_DOCKERFILE} \
     ${INPUT_BUILD_EXTRA_ARGS} \
     ${INPUT_CONTEXT} | tee "$BUILD_LOG"
