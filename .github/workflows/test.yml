@@ -35,6 +35,8 @@ jobs:
       id: variables
       env:
         GIT_SHA: ${{ github.sha }}
+        GITHUB_REPO: ${{ github.repository }}
+        GITHUB_OWNER: ${{ github.repository_owner }}
       run: ./.github/workflows/variables.sh
 
     - uses: ./
@@ -42,5 +44,5 @@ jobs:
         username: ${{ github.repository_owner }}
         password: "${{ secrets.GITHUB_TOKEN }}"
         registry: docker.pkg.github.com
-        image_name: ${{ github.repository }}
+        image_name: ${{ steps.variables.outputs.image_name }}
         image_tag: ${{ steps.variables.outputs.sha8 }}
